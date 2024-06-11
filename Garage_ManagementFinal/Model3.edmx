@@ -1,0 +1,551 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GaragedbModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Entry_Form">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="plate_no" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Brand" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Owner_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="phone" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="Alpha" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="order_service">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="service_tableId" Type="int" Nullable="false" />
+          <Property Name="Entry_FormId" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="Assistant_Mechanic" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="order_stkitem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="quantity" Type="float" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="Entry_FormId" Type="int" Nullable="false" />
+          <Property Name="StockId" Type="int" Nullable="false" />
+          <Property Name="Alpha" Type="nvarchar" MaxLength="1" />
+          <Property Name="Orderedby" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="purchases">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="old_quantity" Type="float" Nullable="false" />
+          <Property Name="new_quantity" Type="float" Nullable="false" />
+          <Property Name="remain_quantity" Type="float" Nullable="false" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="total_price" Type="float" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="StockId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="recipts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="customer_Fullname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Plate_no" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="quantity" Type="float" Nullable="false" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="total" Type="float" Nullable="false" />
+          <Property Name="vat" Type="float" Nullable="false" />
+          <Property Name="tot_withvat" Type="float" Nullable="false" />
+          <Property Name="status" Type="bit" />
+          <Property Name="EntryFormId" Type="int" />
+          <Property Name="Alpha" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="service_table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="service_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stocks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="quantity" Type="float" Nullable="false" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="type" Type="bit" Nullable="false" />
+          <Property Name="buy_price" Type="float" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Firstname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Lastname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="username" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="gender" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="phone_no" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="role" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="ResetPasswordCode" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Entry_Formorder_service">
+          <End Role="Entry_Form" Type="Self.Entry_Form" Multiplicity="1" />
+          <End Role="order_service" Type="Self.order_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entry_Form">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="order_service">
+              <PropertyRef Name="Entry_FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entry_Formorder_stkitem">
+          <End Role="Entry_Form" Type="Self.Entry_Form" Multiplicity="1" />
+          <End Role="order_stkitem" Type="Self.order_stkitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entry_Form">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="order_stkitem">
+              <PropertyRef Name="Entry_FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_service_tableorder_service">
+          <End Role="service_table" Type="Self.service_table" Multiplicity="1" />
+          <End Role="order_service" Type="Self.order_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="service_table">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="order_service">
+              <PropertyRef Name="service_tableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stockorder_stkitem">
+          <End Role="Stocks" Type="Self.Stocks" Multiplicity="1" />
+          <End Role="order_stkitem" Type="Self.order_stkitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stocks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="order_stkitem">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stockpurchase">
+          <End Role="Stocks" Type="Self.Stocks" Multiplicity="1" />
+          <End Role="purchases" Type="Self.purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stocks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="purchases">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GaragedbModel1StoreContainer">
+          <EntitySet Name="Entry_Form" EntityType="Self.Entry_Form" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_service" EntityType="Self.order_service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_stkitem" EntityType="Self.order_stkitem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="purchases" EntityType="Self.purchases" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="recipts" EntityType="Self.recipts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="service_table" EntityType="Self.service_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stocks" EntityType="Self.Stocks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Entry_Formorder_service" Association="Self.FK_Entry_Formorder_service">
+            <End Role="Entry_Form" EntitySet="Entry_Form" />
+            <End Role="order_service" EntitySet="order_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entry_Formorder_stkitem" Association="Self.FK_Entry_Formorder_stkitem">
+            <End Role="Entry_Form" EntitySet="Entry_Form" />
+            <End Role="order_stkitem" EntitySet="order_stkitem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_service_tableorder_service" Association="Self.FK_service_tableorder_service">
+            <End Role="service_table" EntitySet="service_table" />
+            <End Role="order_service" EntitySet="order_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stockorder_stkitem" Association="Self.FK_Stockorder_stkitem">
+            <End Role="Stocks" EntitySet="Stocks" />
+            <End Role="order_stkitem" EntitySet="order_stkitem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stockpurchase" Association="Self.FK_Stockpurchase">
+            <End Role="Stocks" EntitySet="Stocks" />
+            <End Role="purchases" EntitySet="purchases" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GaragedbModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Entry_Form">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="plate_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Brand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Owner_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Alpha" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="order_service" Relationship="Self.FK_Entry_Formorder_service" FromRole="Entry_Form" ToRole="order_service" />
+          <NavigationProperty Name="order_stkitem" Relationship="Self.FK_Entry_Formorder_stkitem" FromRole="Entry_Form" ToRole="order_stkitem" />
+        </EntityType>
+        <EntityType Name="order_service">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="service_tableId" Type="Int32" Nullable="false" />
+          <Property Name="Entry_FormId" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="Assistant_Mechanic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Entry_Form" Relationship="Self.FK_Entry_Formorder_service" FromRole="order_service" ToRole="Entry_Form" />
+          <NavigationProperty Name="service_table" Relationship="Self.FK_service_tableorder_service" FromRole="order_service" ToRole="service_table" />
+        </EntityType>
+        <EntityType Name="order_stkitem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="quantity" Type="Double" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="Entry_FormId" Type="Int32" Nullable="false" />
+          <Property Name="StockId" Type="Int32" Nullable="false" />
+          <Property Name="Alpha" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Entry_Form" Relationship="Self.FK_Entry_Formorder_stkitem" FromRole="order_stkitem" ToRole="Entry_Form" />
+          <NavigationProperty Name="Stock" Relationship="Self.FK_Stockorder_stkitem" FromRole="order_stkitem" ToRole="Stocks" />
+          <Property Name="Orderedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="purchase">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="old_quantity" Type="Double" Nullable="false" />
+          <Property Name="new_quantity" Type="Double" Nullable="false" />
+          <Property Name="remain_quantity" Type="Double" Nullable="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="total_price" Type="Double" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StockId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Stock" Relationship="Self.FK_Stockpurchase" FromRole="purchases" ToRole="Stocks" />
+        </EntityType>
+        <EntityType Name="recipt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="customer_Fullname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Plate_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="quantity" Type="Double" Nullable="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="total" Type="Double" Nullable="false" />
+          <Property Name="vat" Type="Double" Nullable="false" />
+          <Property Name="tot_withvat" Type="Double" Nullable="false" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="EntryFormId" Type="Int32" />
+          <Property Name="Alpha" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="service_table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="service_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="order_service" Relationship="Self.FK_service_tableorder_service" FromRole="service_table" ToRole="order_service" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="quantity" Type="Double" Nullable="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="type" Type="Boolean" Nullable="false" />
+          <Property Name="buy_price" Type="Double" />
+          <NavigationProperty Name="order_stkitem" Relationship="Self.FK_Stockorder_stkitem" FromRole="Stocks" ToRole="order_stkitem" />
+          <NavigationProperty Name="purchases" Relationship="Self.FK_Stockpurchase" FromRole="Stocks" ToRole="purchases" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Firstname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Lastname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="ResetPasswordCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Entry_Formorder_service">
+          <End Role="Entry_Form" Type="Self.Entry_Form" Multiplicity="1" />
+          <End Role="order_service" Type="Self.order_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entry_Form">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="order_service">
+              <PropertyRef Name="Entry_FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entry_Formorder_stkitem">
+          <End Role="Entry_Form" Type="Self.Entry_Form" Multiplicity="1" />
+          <End Role="order_stkitem" Type="Self.order_stkitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entry_Form">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="order_stkitem">
+              <PropertyRef Name="Entry_FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_service_tableorder_service">
+          <End Role="service_table" Type="Self.service_table" Multiplicity="1" />
+          <End Role="order_service" Type="Self.order_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="service_table">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="order_service">
+              <PropertyRef Name="service_tableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stockorder_stkitem">
+          <End Role="Stocks" Type="Self.Stock" Multiplicity="1" />
+          <End Role="order_stkitem" Type="Self.order_stkitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stocks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="order_stkitem">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stockpurchase">
+          <End Role="Stocks" Type="Self.Stock" Multiplicity="1" />
+          <End Role="purchases" Type="Self.purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stocks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="purchases">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GaragedbEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Entry_Form" EntityType="Self.Entry_Form" />
+          <EntitySet Name="order_service" EntityType="Self.order_service" />
+          <EntitySet Name="order_stkitem" EntityType="Self.order_stkitem" />
+          <EntitySet Name="purchases" EntityType="Self.purchase" />
+          <EntitySet Name="recipts" EntityType="Self.recipt" />
+          <EntitySet Name="service_table" EntityType="Self.service_table" />
+          <EntitySet Name="Stocks" EntityType="Self.Stock" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_Entry_Formorder_service" Association="Self.FK_Entry_Formorder_service">
+            <End Role="Entry_Form" EntitySet="Entry_Form" />
+            <End Role="order_service" EntitySet="order_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entry_Formorder_stkitem" Association="Self.FK_Entry_Formorder_stkitem">
+            <End Role="Entry_Form" EntitySet="Entry_Form" />
+            <End Role="order_stkitem" EntitySet="order_stkitem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_service_tableorder_service" Association="Self.FK_service_tableorder_service">
+            <End Role="service_table" EntitySet="service_table" />
+            <End Role="order_service" EntitySet="order_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stockorder_stkitem" Association="Self.FK_Stockorder_stkitem">
+            <End Role="Stocks" EntitySet="Stocks" />
+            <End Role="order_stkitem" EntitySet="order_stkitem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stockpurchase" Association="Self.FK_Stockpurchase">
+            <End Role="Stocks" EntitySet="Stocks" />
+            <End Role="purchases" EntitySet="purchases" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GaragedbModel1StoreContainer" CdmEntityContainer="GaragedbEntities1">
+          <EntitySetMapping Name="Entry_Form">
+            <EntityTypeMapping TypeName="GaragedbModel1.Entry_Form">
+              <MappingFragment StoreEntitySet="Entry_Form">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="plate_no" ColumnName="plate_no" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Owner_name" ColumnName="Owner_name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="Alpha" ColumnName="Alpha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_service">
+            <EntityTypeMapping TypeName="GaragedbModel1.order_service">
+              <MappingFragment StoreEntitySet="order_service">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="service_tableId" ColumnName="service_tableId" />
+                <ScalarProperty Name="Entry_FormId" ColumnName="Entry_FormId" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="Assistant_Mechanic" ColumnName="Assistant_Mechanic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_stkitem">
+            <EntityTypeMapping TypeName="GaragedbModel1.order_stkitem">
+              <MappingFragment StoreEntitySet="order_stkitem">
+                <ScalarProperty Name="Orderedby" ColumnName="Orderedby" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="Entry_FormId" ColumnName="Entry_FormId" />
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+                <ScalarProperty Name="Alpha" ColumnName="Alpha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="purchases">
+            <EntityTypeMapping TypeName="GaragedbModel1.purchase">
+              <MappingFragment StoreEntitySet="purchases">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="old_quantity" ColumnName="old_quantity" />
+                <ScalarProperty Name="new_quantity" ColumnName="new_quantity" />
+                <ScalarProperty Name="remain_quantity" ColumnName="remain_quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="total_price" ColumnName="total_price" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="recipts">
+            <EntityTypeMapping TypeName="GaragedbModel1.recipt">
+              <MappingFragment StoreEntitySet="recipts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="customer_Fullname" ColumnName="customer_Fullname" />
+                <ScalarProperty Name="Plate_no" ColumnName="Plate_no" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="vat" ColumnName="vat" />
+                <ScalarProperty Name="tot_withvat" ColumnName="tot_withvat" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="EntryFormId" ColumnName="EntryFormId" />
+                <ScalarProperty Name="Alpha" ColumnName="Alpha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="service_table">
+            <EntityTypeMapping TypeName="GaragedbModel1.service_table">
+              <MappingFragment StoreEntitySet="service_table">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="service_name" ColumnName="service_name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stocks">
+            <EntityTypeMapping TypeName="GaragedbModel1.Stock">
+              <MappingFragment StoreEntitySet="Stocks">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="buy_price" ColumnName="buy_price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="GaragedbModel1.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="phone_no" ColumnName="phone_no" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="ResetPasswordCode" ColumnName="ResetPasswordCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
